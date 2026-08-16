@@ -2728,6 +2728,132 @@ input[type="number"] {
 }
 .login-submit-btn:active { opacity: 0.85; transform: scale(0.97); }
 
+
+/* ── Guide Overlay ── */
+#ds-guide-overlay {
+  background: var(--bg, #04070D);
+  flex-direction: column;
+}
+.guide-sheet {
+  max-width: 480px; width: 100%; margin: 0 auto; padding-bottom: 60px;
+}
+.guide-hdr {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--bg, #04070D);
+  display: flex; align-items: center; gap: 12px;
+  padding: calc(env(safe-area-inset-top, 20px) + 16px) 20px 14px;
+  border-bottom: 0.5px solid var(--sep, rgba(255,255,255,.09));
+}
+.guide-hdr-title { font-size: 19px; font-weight: 800; color: var(--text-1, #fff); flex: 1; }
+.guide-close {
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  background: var(--fill, rgba(255,255,255,.08));
+  color: var(--text-2, rgba(255,255,255,.6));
+  font-size: 16px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; font-family: inherit;
+}
+.guide-sec { margin: 0 16px; }
+.guide-sec-lbl {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-2, rgba(255,255,255,.5));
+  padding: 20px 4px 10px;
+}
+.guide-card {
+  background: var(--surface, rgba(255,255,255,.07));
+  border-radius: 16px; border: 0.5px solid var(--sep, rgba(255,255,255,.09));
+  overflow: hidden; margin-bottom: 12px;
+}
+.guide-card-hdr {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--sep, rgba(255,255,255,.09));
+}
+.guide-tab-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.guide-card-name { font-size: 15px; font-weight: 700; color: var(--text-1, #fff); }
+.guide-card-desc { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
+.guide-items { padding: 8px 16px 12px; display: flex; flex-direction: column; gap: 9px; }
+.guide-item { display: flex; align-items: flex-start; gap: 9px; font-size: 13.5px; color: var(--text-1); line-height: 1.5; }
+.guide-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent, #0A84FF); flex-shrink: 0; margin-top: 6px;
+}
+.guide-item b { color: var(--text-1); }
+.guide-step-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--sep, rgba(255,255,255,.09));
+}
+.guide-step-row:last-child { border-bottom: none; }
+.guide-step-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-dim, rgba(10,132,255,.15));
+  border: 1.5px solid var(--accent, #0A84FF); color: var(--accent);
+  font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.guide-step-txt { font-size: 14px; color: var(--text-1); line-height: 1.5; padding-top: 2px; }
+.guide-tip-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--sep, rgba(255,255,255,.09));
+}
+.guide-tip-row:last-child { border-bottom: none; }
+.guide-tip-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+.guide-tip-txt { font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+.guide-tip-txt b { color: var(--text-1); }
+.guide-got-it {
+  display: block; width: calc(100% - 32px); margin: 20px 16px 0;
+  padding: 15px; border-radius: 14px;
+  background: var(--accent, #0A84FF); color: #fff;
+  font-size: 16px; font-weight: 700; border: none;
+  cursor: pointer; font-family: inherit;
+}
+
+/* ── Get Started Checklist Card ── */
+.ds-start-card {
+  background: var(--surface); border-radius: var(--r-xl);
+  border: 1px solid rgba(10,132,255,.25); overflow: hidden;
+}
+.ds-start-hdr {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--sep);
+}
+.ds-start-emoji { font-size: 28px; flex-shrink: 0; }
+.ds-start-title { font-size: 16px; font-weight: 700; color: var(--text-1); }
+.ds-start-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.ds-start-guide-btn {
+  margin-left: auto; flex-shrink: 0;
+  background: var(--accent-dim); color: var(--accent);
+  border: 1px solid var(--accent); border-radius: 20px;
+  padding: 6px 12px; font-size: 12px; font-weight: 600;
+  font-family: inherit; cursor: pointer; white-space: nowrap;
+}
+.start-check-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px;
+  border-bottom: 0.5px solid var(--sep);
+  transition: opacity .25s;
+}
+.start-check-item:last-child { border-bottom: none; }
+.start-check-item.done { opacity: 0.35; }
+.start-check-icn {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--fill); border: 1.5px solid var(--sep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--text-2);
+  flex-shrink: 0; transition: all .25s;
+}
+.start-check-item.done .start-check-icn {
+  background: var(--go-dim); border-color: var(--go); color: var(--go);
+}
+.start-check-lbl { font-size: 14px; color: var(--text-1); }
+.start-check-item.done .start-check-lbl { text-decoration: line-through; color: var(--text-2); }
+
 </style>
 
 <!-- ══ iOS STATUS BAR ══ -->
@@ -2839,6 +2965,21 @@ input[type="number"] {
             transform="rotate(-90 36 36)"
             style="transition:stroke-dashoffset .65s cubic-bezier(0.25,0.46,0.45,0.94),stroke .35s"/>
         </svg>
+      </div>
+    </div>
+
+    <!-- Get Started Checklist (auto-hidden when setup complete) -->
+    <div id="ds-start-checklist" class="section" style="display:none">
+      <div class="ds-start-card">
+        <div class="ds-start-hdr">
+          <div class="ds-start-emoji">🚀</div>
+          <div style="flex:1">
+            <div class="ds-start-title">Get Started</div>
+            <div class="ds-start-sub">Complete these to unlock every feature</div>
+          </div>
+          <button class="ds-start-guide-btn" onclick="showGuide()">📖 Guide</button>
+        </div>
+        <div id="start-checklist-items"></div>
       </div>
     </div>
 
@@ -3283,6 +3424,14 @@ input[type="number"] {
           </div>
           <button class="danger-btn" style="background:var(--accent-dim);color:var(--accent)" onclick="startSurvey()">Start →</button>
         </div>
+        <!-- App Guide -->
+        <div class="settings-row">
+          <div class="settings-row-left">
+            <div class="settings-row-label">📖 App Guide</div>
+            <div class="settings-row-sub">Learn how to use every feature</div>
+          </div>
+          <button class="danger-btn" style="background:var(--accent-dim);color:var(--accent)" onclick="showGuide()">Open →</button>
+        </div>
         <!-- Switch Account -->
         <div class="settings-row">
           <div class="settings-row-left">
@@ -3496,6 +3645,189 @@ input[type="number"] {
   </nav>
 
 </div>
+
+<!-- ══ APP GUIDE OVERLAY ══ -->
+<div id="ds-guide-overlay" style="display:none; position:fixed; inset:0; z-index:8500; overflow-y:auto; -webkit-overflow-scrolling:touch">
+  <div class="guide-sheet">
+
+    <!-- Sticky header -->
+    <div class="guide-hdr">
+      <span class="guide-hdr-title">📖 App Guide</span>
+      <button class="guide-close" onclick="hideGuide()">✕</button>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="guide-sec">
+      <div class="guide-sec-lbl">Quick Start — 3 Steps</div>
+      <div class="guide-card">
+        <div class="guide-step-row">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-txt"><b>Run the Setup Wizard</b> — Go to ⚙️ Settings and tap <b>Setup Wizard</b>. Answer 11 quick questions about your balance, income, and monthly spending. Takes under 2 minutes.</div>
+        </div>
+        <div class="guide-step-row">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-txt"><b>Log expenses as you spend</b> — Tap the <b>💸 Expenses</b> tab or the <b>＋</b> floating button (bottom right on any screen) right after each purchase to keep your tracking accurate.</div>
+        </div>
+        <div class="guide-step-row">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-txt"><b>Ask your Financial Friend</b> — On the 🏠 Home tab, tap any of the 7 question buttons to get personalized money advice calculated from your real numbers.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab by Tab -->
+    <div class="guide-sec">
+      <div class="guide-sec-lbl">Tab by Tab</div>
+
+      <!-- Home -->
+      <div class="guide-card">
+        <div class="guide-card-hdr">
+          <div class="guide-tab-icon" style="background:rgba(10,132,255,.15)">🏠</div>
+          <div>
+            <div class="guide-card-name">Home</div>
+            <div class="guide-card-desc">Your live financial dashboard</div>
+          </div>
+        </div>
+        <div class="guide-items">
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Balance</b> — Tap the dollar amount to update your current bank balance. The app recalculates everything from this number.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Daily Budget</b> — Your remaining monthly budget ÷ days left. This is how much you can safely spend today.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Financial Friend</b> — 7 smart questions: spending pace, savings rate, debt plan, biggest categories, tax deductibles, income split, and market insights.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Financial Health</b> — 4 key metrics: Savings Rate, Emergency Fund coverage, Debt-to-Income ratio, and FIRE Progress toward financial independence.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Income Goal</b> — Set your monthly take-home pay to track progress and enable the 50/30/20 rule framework.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Financial Plan</b> — Step-by-step view of how your balance covers: rent → essential bills → debt minimums → optional spending → fun money.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Tonight Verdict</b> — Scroll to the bottom to see a GO / STOP / Caution based on your remaining daily budget.</span></div>
+        </div>
+      </div>
+
+      <!-- Budget -->
+      <div class="guide-card">
+        <div class="guide-card-hdr">
+          <div class="guide-tab-icon" style="background:rgba(48,209,88,.15)">📊</div>
+          <div>
+            <div class="guide-card-name">Budget</div>
+            <div class="guide-card-desc">Plan how every dollar gets spent</div>
+          </div>
+        </div>
+        <div class="guide-items">
+          <div class="guide-item"><div class="guide-dot"></div><span><b>% Allocation</b> — Assign a percentage to each of 9 categories (Housing, Food, Transport…). The app divides your balance by those priorities automatically.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Spending Donut</b> — Visual chart showing where your money is going this month vs. budget.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Recurring Payments</b> — Add monthly bills with name, amount, due date, and priority (Essential / Important / Optional). The Financial Plan uses these to reserve money.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Sinking Funds</b> — Plan for big annual costs monthly. Example: $1,200 vacation ÷ 12 = $100/mo to set aside.</span></div>
+        </div>
+      </div>
+
+      <!-- Expenses -->
+      <div class="guide-card">
+        <div class="guide-card-hdr">
+          <div class="guide-tab-icon" style="background:rgba(255,159,10,.15)">💸</div>
+          <div>
+            <div class="guide-card-name">Expenses</div>
+            <div class="guide-card-desc">Log every purchase quickly</div>
+          </div>
+        </div>
+        <div class="guide-items">
+          <div class="guide-item"><div class="guide-dot"></div><span>Pick a <b>category</b>, enter the <b>amount</b>, add an optional note, then tap <b>"Add to [Category]"</b>. The spending donut and pace calculations update instantly.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Use <b>quick amount chips</b> ($5 · $10 · $20 · $50 · $100) for fast logging — no typing needed.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Toggle <b>Tax Deductible</b> on purchases like work meals, home-office supplies, or charitable donations. The "Deductibles 🧾" advisor button tallies these at tax time.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>The floating <b>＋ button</b> on any screen opens a quick-add sheet — fastest way to log right when you spend.</span></div>
+        </div>
+      </div>
+
+      <!-- I Owe -->
+      <div class="guide-card">
+        <div class="guide-card-hdr">
+          <div class="guide-tab-icon" style="background:rgba(255,69,58,.15)">💳</div>
+          <div>
+            <div class="guide-card-name">I Owe</div>
+            <div class="guide-card-desc">Manage debt and build a payoff plan</div>
+          </div>
+        </div>
+        <div class="guide-items">
+          <div class="guide-item"><div class="guide-dot"></div><span>Add each <b>credit card</b> or <b>loan</b> with its current balance, APR (interest rate), and minimum monthly payment.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>APR</b> is your yearly interest rate — find it on your statement or card app. Credit cards: typically 24–29%. Personal loans: 8–36%.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Avalanche strategy</b> — Pays highest-interest debt first. Saves the most money in total interest. Best mathematically.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Snowball strategy</b> — Pays smallest balance first. Gives quick wins and motivational momentum. Best psychologically.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Set a <b>monthly debt budget</b> to generate a precise payoff timeline showing when each debt gets eliminated.</span></div>
+        </div>
+      </div>
+
+      <!-- Market -->
+      <div class="guide-card">
+        <div class="guide-card-hdr">
+          <div class="guide-tab-icon" style="background:rgba(100,210,255,.15)">📈</div>
+          <div>
+            <div class="guide-card-name">Market</div>
+            <div class="guide-card-desc">Stocks, indices &amp; portfolio</div>
+          </div>
+        </div>
+        <div class="guide-items">
+          <div class="guide-item"><div class="guide-dot"></div><span>Track <b>market indices</b> — S&amp;P 500, NASDAQ, and Bitcoin — at a glance with the mood bar showing Bullish / Bearish / Mixed sentiment.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Build a <b>Watchlist</b> of stocks you're researching by entering the ticker symbol and company name.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Log your <b>Portfolio</b> positions to track shares held, cost basis, and current estimated value.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Tap <b>⚡ Setup Trading</b> to connect an Alpaca brokerage account for paper trading (practice) or live trading.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Tap <b>"Ask Friend 💬"</b> on the mood bar to get the Financial Friend's investing advice for the current market conditions.</span></div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="guide-card">
+        <div class="guide-card-hdr">
+          <div class="guide-tab-icon" style="background:rgba(191,90,242,.15)">⚙️</div>
+          <div>
+            <div class="guide-card-name">Settings</div>
+            <div class="guide-card-desc">Personalize your experience</div>
+          </div>
+        </div>
+        <div class="guide-items">
+          <div class="guide-item"><div class="guide-dot"></div><span>Set your <b>name</b> so the app greets you personally and the Financial Friend knows who it's talking to.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span>Choose your <b>Financial Friend character</b> — each has a unique name and personality. Scroll the character chips to see all options.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Setup Wizard</b> — Re-run the onboarding survey anytime to update your balance, income, debt, or budget numbers.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Switch Account</b> — Multiple people can have completely separate financial profiles with optional PIN protection on one device.</span></div>
+          <div class="guide-item"><div class="guide-dot"></div><span><b>Clear Month</b> — Tap on the 1st of each month to wipe expenses and start fresh. Your budgets, recurring bills, and debts are kept.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro Tips -->
+    <div class="guide-sec">
+      <div class="guide-sec-lbl">Pro Tips</div>
+      <div class="guide-card">
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">🔒</div>
+          <div class="guide-tip-txt"><b>Your data is private.</b> Everything stays on this device — nothing is sent to any server. Each user account is fully isolated.</div>
+        </div>
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">📱</div>
+          <div class="guide-tip-txt"><b>Install the app</b> via Settings → Install App for a full-screen native experience with no browser address bar.</div>
+        </div>
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">🎯</div>
+          <div class="guide-tip-txt">Tap <b>"How to split income? 🎯"</b> in the Financial Friend for a tailored budget breakdown based on your exact income level.</div>
+        </div>
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">🏠</div>
+          <div class="guide-tip-txt">Mark recurring bills as <b>Essential</b> so the Financial Plan always reserves that money first — before fun or flexible spending.</div>
+        </div>
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">🧾</div>
+          <div class="guide-tip-txt">Use the <b>Tax Deductible</b> toggle on business or charitable expenses, then ask "Deductibles 🧾" near tax season for a full summary.</div>
+        </div>
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">💡</div>
+          <div class="guide-tip-txt">The Financial Friend's advice <b>updates with your real data</b> — the more you log, the smarter and more personalized it gets.</div>
+        </div>
+        <div class="guide-tip-row">
+          <div class="guide-tip-icon">📅</div>
+          <div class="guide-tip-txt">Tap <b>Clear Month</b> in Settings on the 1st of each month to reset expenses. Your budgets and recurring bills stay set up.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Got It button -->
+    <button class="guide-got-it" onclick="hideGuide()">Got it — let's go! 🚀</button>
+
+  </div><!-- /guide-sheet -->
+</div><!-- /ds-guide-overlay -->
 
 <!-- ══ MULTI-USER LOGIN OVERLAY ══ -->
 <div id="ds-login-overlay" style="display:none; position:fixed; inset:0; z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:24px; overflow-y:auto">
@@ -5249,6 +5581,40 @@ async function submitAddAccount() {
 }
 
 /* ── App initialiser (extracted so auth can re-call it) ── */
+/* ── Guide & Get-Started Checklist ── */
+function showGuide() {
+  var ov = document.getElementById('ds-guide-overlay');
+  if (ov) { ov.style.display = 'flex'; ov.scrollTop = 0; }
+}
+function hideGuide() {
+  var ov = document.getElementById('ds-guide-overlay');
+  if (ov) ov.style.display = 'none';
+}
+function updateStartChecklist() {
+  var card = document.getElementById('ds-start-checklist');
+  if (!card) return;
+  var bank     = parseFloat(localStorage.getItem('ds_bank') || '0') || 0;
+  var budgets  = JSON.parse(localStorage.getItem('ds_budgets') || '{}');
+  var income   = parseFloat(localStorage.getItem('ds_income_goal') || '0') || 0;
+  var expenses = JSON.parse(localStorage.getItem('ds_expenses') || '[]');
+  var checks = [
+    { done: bank > 0,                                                     label: 'Add your current bank balance' },
+    { done: Object.values(budgets).some(function(v){ return v > 0; }),    label: 'Set up your monthly budget categories' },
+    { done: income > 0,                                                   label: 'Enter your monthly income goal' },
+    { done: Array.isArray(expenses) && expenses.length > 0,               label: 'Log your first expense' }
+  ];
+  var allDone = checks.every(function(c){ return c.done; });
+  card.style.display = allDone ? 'none' : 'block';
+  var list = document.getElementById('start-checklist-items');
+  if (!list) return;
+  list.innerHTML = checks.map(function(c) {
+    return '<div class="start-check-item' + (c.done ? ' done' : '') + '">' +
+      '<div class="start-check-icn">' + (c.done ? '✓' : '') + '</div>' +
+      '<div class="start-check-lbl">' + c.label + '</div>' +
+      '</div>';
+  }).join('');
+}
+
 function initApp() {
   const savedTheme = localStorage.getItem('ds_theme') || 'dark';
   setTheme(savedTheme);
@@ -5265,6 +5631,7 @@ function initApp() {
   const hasData = parseFloat(localStorage.getItem('ds_bank')||'0') > 0 ||
     Object.values(JSON.parse(localStorage.getItem('ds_budgets')||'{}')).some(v=>v>0);
   if (!surveyDone) startSurvey();
+  updateStartChecklist();
 }
 
 // Init: auth gate → then restore theme / language / tab
