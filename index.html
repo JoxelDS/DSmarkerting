@@ -2854,6 +2854,162 @@ input[type="number"] {
 .start-check-lbl { font-size: 14px; color: var(--text-1); }
 .start-check-item.done .start-check-lbl { text-decoration: line-through; color: var(--text-2); }
 
+
+/* ── Design Polish Layer ── */
+
+/* Section labels */
+.section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 20px 18px 8px;
+  opacity: 0.75;
+}
+
+/* Card consistency */
+.card, .ds-start-card, .qa-card, .budget-card, .friend-card {
+  border-radius: 18px !important;
+}
+
+/* Settings rows — cleaner borders */
+.settings-row {
+  border-bottom: 1px solid rgba(255,255,255,0.045) !important;
+  transition: background 0.15s;
+}
+.settings-row:last-child { border-bottom: none !important; }
+.settings-row:active { background: rgba(255,255,255,0.04); }
+
+/* Tab bar active pill */
+.tab-btn {
+  transition: color 0.18s, background 0.18s !important;
+  border-radius: 10px !important;
+}
+.tab-btn.active {
+  background: rgba(255,255,255,0.10) !important;
+  color: var(--accent) !important;
+}
+
+/* Numeric fields use tabular figures */
+.bh-input, .bh-val, .bh-today, .bh-safe,
+input[type="number"], .sp-amt, .rec-amt {
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* Quick-add card padding */
+.qa-card { padding: 16px 18px !important; }
+
+/* Friend card buttons */
+.friend-quick-btn {
+  padding: 10px 16px !important;
+  border-radius: 12px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+/* Hero balance — bigger, tighter */
+.bh-val {
+  font-size: clamp(36px, 10vw, 52px) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Section padding consistency */
+.section > *:first-child { padding-top: 0 !important; }
+
+/* Bottom nav bar label size */
+.tab-btn span { font-size: 10px !important; letter-spacing: 0.04em; }
+
+/* Guide overlay backdrop */
+#ds-guide-overlay {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* ── Interactive Tour CSS ── */
+#tour-blocker {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: all;
+  cursor: default;
+}
+#tour-spotlight {
+  display: none;
+  position: fixed;
+  z-index: 9001;
+  border-radius: 14px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,.82);
+  transition: top 0.35s cubic-bezier(.4,0,.2,1),
+              left 0.35s cubic-bezier(.4,0,.2,1),
+              width 0.35s cubic-bezier(.4,0,.2,1),
+              height 0.35s cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+}
+#tour-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 9010;
+  background: #181c26;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 22px 22px 18px;
+  max-width: 320px;
+  width: calc(100vw - 40px);
+  box-shadow: 0 8px 40px rgba(0,0,0,.6);
+  pointer-events: all;
+  transition: top 0.35s cubic-bezier(.4,0,.2,1),
+              left 0.35s cubic-bezier(.4,0,.2,1),
+              opacity 0.2s;
+}
+#tour-tooltip .tt-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+#tour-tooltip .tt-title {
+  font-size: 17px; font-weight: 700; color: #fff;
+  margin-bottom: 6px; line-height: 1.2;
+}
+#tour-tooltip .tt-body {
+  font-size: 13.5px; color: rgba(255,255,255,0.72);
+  line-height: 1.55; margin-bottom: 16px;
+}
+.tour-dots {
+  display: flex; gap: 6px; justify-content: center;
+  margin-bottom: 14px;
+}
+.tour-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  transition: background 0.2s, width 0.2s;
+}
+.tour-dot.active {
+  background: var(--accent);
+  width: 18px; border-radius: 4px;
+}
+.tour-nav {
+  display: flex; gap: 10px; align-items: center;
+}
+.tour-nav .t-skip {
+  flex: 1; font-size: 12px; color: rgba(255,255,255,0.4);
+  background: none; border: none; cursor: pointer; text-align: left;
+  padding: 0;
+}
+.tour-nav .t-back {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  border: none; border-radius: 12px;
+  padding: 10px 18px; font-size: 14px; font-weight: 600;
+  cursor: pointer;
+}
+.tour-nav .t-next {
+  background: var(--accent);
+  color: #fff;
+  border: none; border-radius: 12px;
+  padding: 10px 22px; font-size: 14px; font-weight: 700;
+  cursor: pointer; flex-shrink: 0;
+}
+.tour-nav .t-next:hover { opacity: 0.9; }
+
 </style>
 
 <!-- ══ iOS STATUS BAR ══ -->
@@ -2977,7 +3133,7 @@ input[type="number"] {
             <div class="ds-start-title">Get Started</div>
             <div class="ds-start-sub">Complete these to unlock every feature</div>
           </div>
-          <button class="ds-start-guide-btn" onclick="showGuide()">📖 Guide</button>
+          <button class="ds-start-guide-btn" onclick="startTour()">📖 Tour</button>
         </div>
         <div id="start-checklist-items"></div>
       </div>
@@ -3430,7 +3586,7 @@ input[type="number"] {
             <div class="settings-row-label">📖 App Guide</div>
             <div class="settings-row-sub">Learn how to use every feature</div>
           </div>
-          <button class="danger-btn" style="background:var(--accent-dim);color:var(--accent)" onclick="showGuide()">Open →</button>
+          <button class="danger-btn" style="background:var(--accent-dim);color:var(--accent)" onclick="startTour()">Start Tour →</button>
         </div>
         <!-- Switch Account -->
         <div class="settings-row">
@@ -3828,6 +3984,22 @@ input[type="number"] {
 
   </div><!-- /guide-sheet -->
 </div><!-- /ds-guide-overlay -->
+
+
+<!-- ══ INTERACTIVE PRODUCT TOUR ══ -->
+<div id="tour-blocker" onclick="endTour()"></div>
+<div id="tour-spotlight"></div>
+<div id="tour-tooltip">
+  <span class="tt-emoji" id="tt-emoji">👋</span>
+  <div class="tt-title" id="tt-title">Welcome!</div>
+  <div class="tt-body" id="tt-body"></div>
+  <div class="tour-dots" id="tour-dots"></div>
+  <div class="tour-nav">
+    <button class="t-skip" onclick="endTour()">Skip tour</button>
+    <button class="t-back" id="t-back" onclick="tourPrev()">Back</button>
+    <button class="t-next" id="t-next" onclick="tourNext()">Next →</button>
+  </div>
+</div>
 
 <!-- ══ MULTI-USER LOGIN OVERLAY ══ -->
 <div id="ds-login-overlay" style="display:none; position:fixed; inset:0; z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:24px; overflow-y:auto">
@@ -5613,6 +5785,213 @@ function updateStartChecklist() {
       '<div class="start-check-lbl">' + c.label + '</div>' +
       '</div>';
   }).join('');
+}
+
+
+/* ── Interactive Product Tour ── */
+var TOUR_STEPS = [
+  {
+    emoji: '👋',
+    title: 'Welcome to DS Marketing!',
+    body: 'This 60-second tour shows you exactly how to use the app. I'll highlight each feature as we go. Tap Next to start!',
+    selector: null,
+    tab: null
+  },
+  {
+    emoji: '💰',
+    title: 'Your Balance',
+    body: 'This is your current bank balance. Tap the number to edit it and type in how much money you actually have right now.',
+    selector: '.bh-input',
+    tab: 'home',
+    scrollEl: '.bh-input'
+  },
+  {
+    emoji: '📅',
+    title: 'Daily Budget',
+    body: 'This card shows how much you can safely spend today based on your balance and upcoming bills. It updates every time you add an expense.',
+    selector: '#daily-section',
+    tab: 'home',
+    scrollEl: '#daily-section'
+  },
+  {
+    emoji: '🤖',
+    title: 'Financial Friend',
+    body: 'Your AI advisor lives here. Ask it anything — "Can I afford a $200 dinner?" or "Should I save more this month?" — and get personalized advice based on your real numbers.',
+    selector: '.friend-quick-wrap',
+    tab: 'home',
+    scrollEl: '.friend-quick-wrap'
+  },
+  {
+    emoji: '📊',
+    title: 'Budget Categories',
+    body: 'Set spending limits for each category like Food, Transport, and Fun. The bars fill up as you spend so you always know where you stand.',
+    selector: '.sp-table',
+    tab: 'budget',
+    scrollEl: '.sp-table'
+  },
+  {
+    emoji: '🔁',
+    title: 'Recurring Bills',
+    body: 'Add your fixed monthly bills here — rent, subscriptions, utilities. The app subtracts them automatically when calculating your safe daily spend.',
+    selector: '#recurring-list',
+    tab: 'budget',
+    scrollEl: '#recurring-list'
+  },
+  {
+    emoji: '➕',
+    title: 'Log an Expense',
+    body: 'Tap any category button to instantly log a purchase. You can also tap the big + button to add a custom amount with a note and photo.',
+    selector: '.qa-card',
+    tab: 'expenses',
+    scrollEl: '.qa-card'
+  },
+  {
+    emoji: '🔘',
+    title: 'The + Button',
+    body: 'This is your fastest way to log any expense. Tap it, type the amount, pick a category, and you're done in seconds.',
+    selector: '#fab',
+    tab: 'expenses',
+    scrollEl: '#fab'
+  },
+  {
+    emoji: '🤝',
+    title: 'I Owe / They Owe',
+    body: 'Track money you owe to friends or that friends owe you. When someone pays you back, just tap Settle — the balance updates your bank automatically.',
+    selector: null,
+    tab: 'iowe',
+    scrollEl: null
+  },
+  {
+    emoji: '⚙️',
+    title: 'Setup Wizard',
+    body: 'Head to Settings → Setup Wizard to answer a few quick questions about your income, bills, and savings goals. The app gets smarter with your real numbers.',
+    selector: null,
+    tab: 'settings',
+    scrollEl: null
+  },
+  {
+    emoji: '🎉',
+    title: 'You're all set!',
+    body: 'Start by adding your bank balance, then run the Setup Wizard. The app will guide you from there. You can relaunch this tour anytime from Settings → App Guide.',
+    selector: null,
+    tab: null
+  }
+];
+
+var _tourStep = 0;
+var _tourActive = false;
+
+function startTour() {
+  hideGuide();
+  _tourStep = 0;
+  _tourActive = true;
+  document.getElementById('tour-blocker').style.display = 'block';
+  document.getElementById('tour-tooltip').style.display = 'block';
+  showTourStep(_tourStep);
+}
+
+function endTour() {
+  _tourActive = false;
+  document.getElementById('tour-blocker').style.display = 'none';
+  document.getElementById('tour-spotlight').style.display = 'none';
+  document.getElementById('tour-tooltip').style.display = 'none';
+}
+
+function tourNext() {
+  if (_tourStep >= TOUR_STEPS.length - 1) { endTour(); return; }
+  _tourStep++;
+  showTourStep(_tourStep);
+}
+
+function tourPrev() {
+  if (_tourStep <= 0) return;
+  _tourStep--;
+  showTourStep(_tourStep);
+}
+
+function showTourStep(idx) {
+  var step = TOUR_STEPS[idx];
+  var total = TOUR_STEPS.length;
+
+  // Update text content
+  document.getElementById('tt-emoji').textContent = step.emoji;
+  document.getElementById('tt-title').textContent = step.title;
+  document.getElementById('tt-body').textContent = step.body;
+
+  // Back button visibility
+  var backBtn = document.getElementById('t-back');
+  backBtn.style.display = idx === 0 ? 'none' : 'block';
+
+  // Next button label
+  var nextBtn = document.getElementById('t-next');
+  nextBtn.textContent = idx === total - 1 ? 'Finish 🎉' : 'Next →';
+
+  // Progress dots
+  var dotsEl = document.getElementById('tour-dots');
+  dotsEl.innerHTML = TOUR_STEPS.map(function(_, i) {
+    return '<div class="tour-dot' + (i === idx ? ' active' : '') + '"></div>';
+  }).join('');
+
+  // Switch tab if needed
+  if (step.tab) {
+    var tabBtn = document.querySelector('.tab-btn[data-tab="' + step.tab + '"]');
+    if (tabBtn && !tabBtn.classList.contains('active')) tabBtn.click();
+  }
+
+  // Find target element and position spotlight
+  var sp = document.getElementById('tour-spotlight');
+  var tt = document.getElementById('tour-tooltip');
+
+  setTimeout(function() {
+    var target = step.selector ? document.querySelector(step.selector) : null;
+
+    if (target) {
+      // Scroll target into view
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function() {
+        positionTourElements(target, tt, sp);
+      }, 350);
+      sp.style.display = 'block';
+    } else {
+      // No target — hide spotlight, center tooltip
+      sp.style.display = 'none';
+      tt.style.left = '50%';
+      tt.style.top = '50%';
+      tt.style.transform = 'translate(-50%, -50%)';
+    }
+  }, step.tab ? 320 : 0);
+}
+
+function positionTourElements(target, tt, sp) {
+  var r = target.getBoundingClientRect();
+  var pad = 10;
+
+  // Spotlight
+  sp.style.top    = (r.top - pad) + 'px';
+  sp.style.left   = (r.left - pad) + 'px';
+  sp.style.width  = (r.width + pad * 2) + 'px';
+  sp.style.height = (r.height + pad * 2) + 'px';
+
+  // Tooltip: prefer below, fall back to above
+  var ttH = 220; // approximate
+  var vw = window.innerWidth;
+  var vh = window.innerHeight;
+  var ttW = Math.min(320, vw - 40);
+  var ttLeft = Math.max(20, Math.min(r.left, vw - ttW - 20));
+  var ttTop;
+
+  if (r.bottom + ttH + 20 < vh) {
+    ttTop = r.bottom + 14;
+  } else if (r.top - ttH - 14 > 0) {
+    ttTop = r.top - ttH - 14;
+  } else {
+    ttTop = Math.max(20, (vh - ttH) / 2);
+  }
+
+  tt.style.transform = 'none';
+  tt.style.left = ttLeft + 'px';
+  tt.style.top  = ttTop + 'px';
+  tt.style.width = ttW + 'px';
 }
 
 function initApp() {
