@@ -5250,7 +5250,7 @@ async function submitAddAccount() {
 
 /* ── App initialiser (extracted so auth can re-call it) ── */
 function initApp() {
-  const savedTheme = localStorage.getItem('ds_theme') || 'auto';
+  const savedTheme = localStorage.getItem('ds_theme') || 'dark';
   setTheme(savedTheme);
   applyAccent(localStorage.getItem('ds_accent') || 'blue');
   applyBg(localStorage.getItem('ds_bg') || 'gradient-sunset');
