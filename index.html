@@ -2461,6 +2461,212 @@ input[type="number"] {
   background: var(--fill-2);
 }
 
+
+/* ════════════════════════════════════════════
+   MULTI-USER LOGIN / ACCOUNT SYSTEM
+   ════════════════════════════════════════════ */
+#ds-login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: var(--app-bg, #050818);
+  /* flex is set by JS when shown */
+}
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 28px;
+  padding: 32px 24px 28px;
+  box-shadow: 0 16px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.login-brand-ds {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #fff;
+  font-family: Georgia, serif;
+}
+.login-brand-sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.22);
+}
+.login-brand-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+}
+.login-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  margin-bottom: 4px;
+  letter-spacing: -0.4px;
+}
+.login-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 0;
+}
+.login-accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+.login-acc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 10px 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  cursor: pointer;
+  position: relative;
+  transition: background .14s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+.login-acc-card:active { transform: scale(0.95); background: rgba(255,255,255,0.13); }
+.login-acc-avatar { font-size: 36px; line-height: 1; }
+.login-acc-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.88);
+  text-align: center;
+  word-break: break-word;
+}
+.login-acc-lock {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  font-size: 11px;
+  opacity: 0.6;
+}
+.login-add-card { border-style: dashed; border-color: rgba(255,255,255,0.18); }
+.login-acc-plus {
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+}
+/* PIN entry */
+.login-back-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 0 4px;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.login-back-btn:hover { color: rgba(255,255,255,0.8); }
+.login-pin-dots {
+  display: flex;
+  gap: 16px;
+  margin: 22px 0 10px;
+}
+.login-pin-dots span {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background .1s, transform .1s;
+}
+.login-pin-dots span.filled {
+  background: var(--accent, #007AFF);
+  transform: scale(1.15);
+}
+.login-pin-error {
+  font-size: 13px;
+  color: #FF453A;
+  min-height: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.login-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 264px;
+  margin: 4px auto 0;
+}
+.kp-btn {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .1s, transform .08s;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+.kp-btn:active { background: rgba(255,255,255,0.18); transform: scale(0.9); }
+.kp-empty { background: none !important; cursor: default; pointer-events: none; }
+.kp-del { font-size: 18px; background: rgba(255,255,255,0.05); }
+/* Add account form */
+.login-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size: 15px;
+  font-family: inherit;
+  color: rgba(255,255,255,0.9);
+  outline: none;
+  transition: border-color .14s;
+}
+.login-input + .login-input { margin-top: 10px; }
+.login-input:focus { border-color: var(--accent, #007AFF); }
+.login-input::placeholder { color: rgba(255,255,255,0.28); }
+.login-submit-btn {
+  width: 100%;
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: 14px;
+  background: var(--accent, #007AFF);
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity .14s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.login-submit-btn:active { opacity: 0.85; transform: scale(0.97); }
+
 </style>
 
 <!-- ══ iOS STATUS BAR ══ -->
@@ -3011,6 +3217,14 @@ input[type="number"] {
           </div>
           <button class="danger-btn" style="background:var(--accent-dim);color:var(--accent)" onclick="startSurvey()">Start →</button>
         </div>
+        <!-- Switch Account -->
+        <div class="settings-row">
+          <div class="settings-row-left">
+            <div class="settings-row-label">👤 Switch Account</div>
+            <div class="settings-row-sub">Log out or switch to a different profile</div>
+          </div>
+          <button class="danger-btn" style="background:var(--accent-dim);color:var(--accent)" onclick="DS_AUTH.logout()">Switch →</button>
+        </div>
         <!-- Install App -->
         <div class="settings-row" id="pwa-install-btn" style="display:none">
           <div class="settings-row-left">
@@ -3216,6 +3430,64 @@ input[type="number"] {
   </nav>
 
 </div>
+
+<!-- ══ MULTI-USER LOGIN OVERLAY ══ -->
+<div id="ds-login-overlay" style="display:none; position:fixed; inset:0; z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:24px; overflow-y:auto">
+  <div class="login-card">
+
+    <!-- Brand mark -->
+    <div class="login-brand">
+      <span class="login-brand-ds">DS</span>
+      <span class="login-brand-sep"></span>
+      <span class="login-brand-label">BUDGETING</span>
+    </div>
+
+    <!-- ── Panel A: account picker ── -->
+    <div id="ds-login-main">
+      <p class="login-title">Who's using the app?</p>
+      <p class="login-sub">Tap your profile to continue</p>
+      <div id="ds-login-accounts" class="login-accounts-grid"></div>
+    </div>
+
+    <!-- ── Panel B: PIN entry ── -->
+    <div id="ds-login-pin" style="display:none; flex-direction:column; align-items:center; width:100%">
+      <button class="login-back-btn" onclick="hidePinEntry()">‹ Back</button>
+      <p id="ds-pin-who" class="login-title" style="margin-top:10px"></p>
+      <p class="login-sub">Enter your PIN</p>
+      <div id="ds-pin-dots" class="login-pin-dots">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <p id="ds-pin-error" class="login-pin-error"></p>
+      <div class="login-keypad">
+        <button class="kp-btn" onclick="pinDigit('1')">1</button>
+        <button class="kp-btn" onclick="pinDigit('2')">2</button>
+        <button class="kp-btn" onclick="pinDigit('3')">3</button>
+        <button class="kp-btn" onclick="pinDigit('4')">4</button>
+        <button class="kp-btn" onclick="pinDigit('5')">5</button>
+        <button class="kp-btn" onclick="pinDigit('6')">6</button>
+        <button class="kp-btn" onclick="pinDigit('7')">7</button>
+        <button class="kp-btn" onclick="pinDigit('8')">8</button>
+        <button class="kp-btn" onclick="pinDigit('9')">9</button>
+        <button class="kp-btn kp-empty"></button>
+        <button class="kp-btn" onclick="pinDigit('0')">0</button>
+        <button class="kp-btn kp-del" onclick="pinDelete()">⌫</button>
+      </div>
+    </div>
+
+    <!-- ── Panel C: create account form ── -->
+    <div id="ds-login-add" style="display:none; flex-direction:column; width:100%">
+      <button class="login-back-btn" onclick="hideAddAccount()" id="ds-add-back-btn">‹ Back</button>
+      <p class="login-title" style="margin-top:10px">Create Account</p>
+      <p class="login-sub" style="margin-bottom:18px">Your data stays private on this device</p>
+      <input id="ds-add-name" class="login-input" type="text" placeholder="Your name" maxlength="30" autocomplete="off">
+      <input id="ds-add-pin" class="login-input login-input" type="text" inputmode="numeric" placeholder="4-digit PIN (optional)" maxlength="4" autocomplete="off">
+      <p id="ds-add-error" class="login-pin-error" style="margin-top:10px"></p>
+      <button class="login-submit-btn" onclick="submitAddAccount()">Create Account →</button>
+    </div>
+
+  </div>
+</div>
+
 
 <script>
 /* ══ LANGUAGE STRINGS ══ */
@@ -4711,22 +4983,235 @@ function closeSurvey() {
   showTab('overview');
 }
 
-// Init: restore saved theme, language active state, and tab
-(function init() {
+
+/* ══ MULTI-USER AUTH SYSTEM ══ */
+const DS_USER_KEYS = [
+  'ds_lang','ds_theme','ds_accent','ds_bg','ds_active_tab',
+  'ds_budgets','ds_expenses','ds_bank','ds_debts','ds_debt_monthly','ds_debt_method',
+  'ds_cat_pcts','ds_balance_log','ds_recurring','ds_selected_cat',
+  'ds_user_name','ds_income_goal','ds_survey_done',
+  'ds_investments_value','ds_sinking_funds','ds_friend_char','ds_alpaca_creds',
+  'ds_lesson_date'
+];
+
+const DS_AUTH = {
+  getAccounts() {
+    return JSON.parse(localStorage.getItem('ds_accounts') || '[]');
+  },
+  saveAccounts(accounts) {
+    localStorage.setItem('ds_accounts', JSON.stringify(accounts));
+  },
+  getCurrentUserId() {
+    return localStorage.getItem('ds_current_user') || null;
+  },
+  isLoggedIn() {
+    return !!this.getCurrentUserId();
+  },
+  snapshotUserData(userId) {
+    const snap = {};
+    DS_USER_KEYS.forEach(k => {
+      const v = localStorage.getItem(k);
+      if (v !== null) snap[k] = v;
+    });
+    localStorage.setItem('ds_data_' + userId, JSON.stringify(snap));
+  },
+  restoreUserData(userId) {
+    DS_USER_KEYS.forEach(k => localStorage.removeItem(k));
+    const raw = localStorage.getItem('ds_data_' + userId);
+    if (raw) {
+      try {
+        const snap = JSON.parse(raw);
+        Object.entries(snap).forEach(([k, v]) => localStorage.setItem(k, v));
+      } catch(e) {}
+    }
+  },
+  async hashPin(pin) {
+    if (!pin) return '';
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pin));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  },
+  async createAccount(name, pin) {
+    const id = 'u' + Date.now() + Math.random().toString(36).slice(2, 6);
+    const pinHash = await this.hashPin(pin);
+    const avatars = ['🦁','🐯','🦊','🐼','🐨','🦄','🐸','🐙','🦋','🌟','🍀','🎯','🦅','🌈','🏔','🔥'];
+    const accounts = this.getAccounts();
+    const avatar = avatars[accounts.length % avatars.length];
+    const account = { id, name, avatar, pinHash };
+    accounts.push(account);
+    this.saveAccounts(accounts);
+    return account;
+  },
+  async login(id, pin) {
+    const accounts = this.getAccounts();
+    const account = accounts.find(a => a.id === id);
+    if (!account) return false;
+    if (account.pinHash) {
+      const h = await this.hashPin(pin);
+      if (h !== account.pinHash) return false;
+    }
+    const currentId = this.getCurrentUserId();
+    if (currentId && currentId !== id) this.snapshotUserData(currentId);
+    localStorage.setItem('ds_current_user', id);
+    this.restoreUserData(id);
+    return true;
+  },
+  logout() {
+    const id = this.getCurrentUserId();
+    if (id) this.snapshotUserData(id);
+    localStorage.removeItem('ds_current_user');
+    showLoginScreen();
+  }
+};
+
+/* ── Login screen functions ── */
+function showLoginScreen() {
+  const ov = document.getElementById('ds-login-overlay');
+  if (ov) ov.style.display = 'flex';
+  renderLoginScreen();
+}
+function hideLoginScreen() {
+  const ov = document.getElementById('ds-login-overlay');
+  if (ov) ov.style.display = 'none';
+}
+function renderLoginScreen() {
+  const accounts = DS_AUTH.getAccounts();
+  const container = document.getElementById('ds-login-accounts');
+  if (!container) return;
+  container.innerHTML = '';
+  accounts.forEach(acc => {
+    const card = document.createElement('button');
+    card.className = 'login-acc-card';
+    card.innerHTML =
+      `<span class="login-acc-avatar">${acc.avatar}</span>` +
+      `<span class="login-acc-name">${acc.name}</span>` +
+      (acc.pinHash ? `<span class="login-acc-lock">🔒</span>` : '');
+    card.onclick = () => acc.pinHash ? showPinEntry(acc) : doLogin(acc, '');
+    container.appendChild(card);
+  });
+  const addCard = document.createElement('button');
+  addCard.className = 'login-acc-card login-add-card';
+  addCard.innerHTML =
+    `<span class="login-acc-avatar"><span class="login-acc-plus">+</span></span>` +
+    `<span class="login-acc-name">New Account</span>`;
+  addCard.onclick = showAddAccount;
+  container.appendChild(addCard);
+  // Show main panel, hide others
+  document.getElementById('ds-login-main').style.display = '';
+  document.getElementById('ds-login-pin').style.display  = 'none';
+  document.getElementById('ds-login-add').style.display  = 'none';
+}
+
+/* ── PIN entry ── */
+let _loginPinTarget = null, _pinInput = '';
+function showPinEntry(acc) {
+  _loginPinTarget = acc;
+  _pinInput = '';
+  document.getElementById('ds-login-main').style.display = 'none';
+  document.getElementById('ds-login-pin').style.display  = 'flex';
+  document.getElementById('ds-pin-who').textContent = acc.avatar + ' ' + acc.name;
+  document.querySelectorAll('#ds-pin-dots span').forEach(s => s.classList.remove('filled'));
+  document.getElementById('ds-pin-error').textContent = '';
+}
+function hidePinEntry() { renderLoginScreen(); }
+function pinDigit(d) {
+  if (_pinInput.length >= 4) return;
+  _pinInput += d;
+  document.querySelectorAll('#ds-pin-dots span').forEach((dot, i) =>
+    dot.classList.toggle('filled', i < _pinInput.length));
+  if (_pinInput.length === 4) setTimeout(() => doLogin(_loginPinTarget, _pinInput), 150);
+}
+function pinDelete() {
+  _pinInput = _pinInput.slice(0, -1);
+  document.querySelectorAll('#ds-pin-dots span').forEach((dot, i) =>
+    dot.classList.toggle('filled', i < _pinInput.length));
+}
+
+/* ── Login / create ── */
+async function doLogin(acc, pin) {
+  const ok = await DS_AUTH.login(acc.id, pin);
+  if (!ok) {
+    _pinInput = '';
+    document.querySelectorAll('#ds-pin-dots span').forEach(s => s.classList.remove('filled'));
+    document.getElementById('ds-pin-error').textContent = 'Wrong PIN — try again.';
+    return;
+  }
+  hideLoginScreen();
+  initApp();
+}
+function showAddAccount() {
+  document.getElementById('ds-login-main').style.display = 'none';
+  document.getElementById('ds-login-pin').style.display  = 'none';
+  document.getElementById('ds-login-add').style.display  = 'flex';
+  const nameEl = document.getElementById('ds-add-name');
+  if (nameEl) { nameEl.value = ''; setTimeout(() => nameEl.focus(), 80); }
+  const pinEl  = document.getElementById('ds-add-pin');  if (pinEl)  pinEl.value  = '';
+  const errEl  = document.getElementById('ds-add-error'); if (errEl)  errEl.textContent = '';
+  // Hide back button if this is the very first account
+  const backBtn = document.getElementById('ds-add-back-btn');
+  if (backBtn) backBtn.style.display = DS_AUTH.getAccounts().length === 0 ? 'none' : '';
+}
+function hideAddAccount() {
+  if (DS_AUTH.getAccounts().length === 0) return; // first run — can't go back
+  renderLoginScreen();
+}
+async function submitAddAccount() {
+  const nameEl = document.getElementById('ds-add-name');
+  const pinEl  = document.getElementById('ds-add-pin');
+  const errEl  = document.getElementById('ds-add-error');
+  const name   = nameEl ? nameEl.value.trim() : '';
+  if (!name) { if (errEl) errEl.textContent = 'Please enter your name'; return; }
+  const pin = pinEl ? pinEl.value.trim() : '';
+  if (pin && (pin.length !== 4 || !/^\d{4}$/.test(pin))) {
+    if (errEl) errEl.textContent = 'PIN must be exactly 4 digits, or leave it empty';
+    return;
+  }
+  const isFirst = DS_AUTH.getAccounts().length === 0;
+  const acc = await DS_AUTH.createAccount(name, pin);
+  if (isFirst) {
+    // Adopt any existing data and tag it with this account's name
+    localStorage.setItem('ds_user_name', name);
+    DS_AUTH.snapshotUserData(acc.id);
+  }
+  await doLogin(acc, pin);
+}
+
+/* ── App initialiser (extracted so auth can re-call it) ── */
+function initApp() {
   const savedTheme = localStorage.getItem('ds_theme') || 'auto';
   setTheme(savedTheme);
   applyAccent(localStorage.getItem('ds_accent') || 'blue');
   applyBg(localStorage.getItem('ds_bg') || 'gradient-sunset');
-  document.querySelectorAll('.lang-chip').forEach(b => b.classList.toggle('active', b.textContent === currentLang.toUpperCase()));
+  if (typeof setLang === 'function') setLang(localStorage.getItem('ds_lang') || 'en');
+  document.querySelectorAll('.lang-chip').forEach(b =>
+    b.classList.toggle('active', b.textContent === currentLang.toUpperCase()));
   render();
   selectCat(localStorage.getItem('ds_selected_cat') || 'fun');
   const lastTab = localStorage.getItem('ds_active_tab') || 'overview';
   showTab(lastTab);
-  // Show survey on first visit
   const surveyDone = localStorage.getItem('ds_survey_done');
   const hasData = parseFloat(localStorage.getItem('ds_bank')||'0') > 0 ||
     Object.values(JSON.parse(localStorage.getItem('ds_budgets')||'{}')).some(v=>v>0);
   if (!surveyDone && !hasData) startSurvey();
+}
+
+// Init: auth gate → then restore theme / language / tab
+(function init() {
+  const accounts = DS_AUTH.getAccounts();
+  if (!DS_AUTH.isLoggedIn()) {
+    if (accounts.length === 0) {
+      // First ever launch — show create-account form
+      document.getElementById('ds-login-overlay').style.display = 'flex';
+      showAddAccount();
+    } else if (accounts.length === 1 && !accounts[0].pinHash) {
+      // Single account, no PIN — auto-login for convenience
+      localStorage.setItem('ds_current_user', accounts[0].id);
+      initApp();
+    } else {
+      showLoginScreen();
+    }
+    return;
+  }
+  initApp();
 })();
 
 /* ══ iOS POLISH ══ */
