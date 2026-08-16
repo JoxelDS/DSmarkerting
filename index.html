@@ -5135,6 +5135,10 @@ async function doLogin(acc, pin) {
     document.getElementById('ds-pin-error').textContent = 'Wrong PIN — try again.';
     return;
   }
+  // Pre-seed display name so greetings work before the survey completes
+  if (!localStorage.getItem('ds_user_name') && acc.name) {
+    localStorage.setItem('ds_user_name', acc.name);
+  }
   hideLoginScreen();
   initApp();
 }
@@ -5171,6 +5175,9 @@ async function submitAddAccount() {
     // Adopt any existing data and tag it with this account's name
     localStorage.setItem('ds_user_name', name);
     DS_AUTH.snapshotUserData(acc.id);
+  } else {
+    // New account — explicitly clear survey flag so onboarding always fires
+    localStorage.removeItem('ds_survey_done');
   }
   await doLogin(acc, pin);
 }
@@ -5191,7 +5198,7 @@ function initApp() {
   const surveyDone = localStorage.getItem('ds_survey_done');
   const hasData = parseFloat(localStorage.getItem('ds_bank')||'0') > 0 ||
     Object.values(JSON.parse(localStorage.getItem('ds_budgets')||'{}')).some(v=>v>0);
-  if (!surveyDone && !hasData) startSurvey();
+  if (!surveyDone) startSurvey();
 }
 
 // Init: auth gate → then restore theme / language / tab
