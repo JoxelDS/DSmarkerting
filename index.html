@@ -2326,6 +2326,108 @@ input[type="number"] {
   opacity: 0.75 !important;
 }
 
+
+/* ════════════════════════════════════════════
+   FRIEND CARD REDESIGN — premium advisor look
+   ════════════════════════════════════════════ */
+
+/* Header: deep navy, no decorations */
+.friend-header {
+  background: linear-gradient(148deg,
+    #06112A 0%,
+    #0C1B42 45%,
+    #0A182C 100%) !important;
+  padding: 18px 20px 16px !important;
+  align-items: center !important;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07) !important;
+}
+
+/* Kill the decorative dots */
+.friend-header::before { content: none !important; display: none !important; }
+
+/* Name: large, clean, white */
+.friend-name {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: rgba(255,255,255,0.96) !important;
+  letter-spacing: -0.4px !important;
+  line-height: 1 !important;
+  margin-bottom: 5px !important;
+  text-shadow: none !important;
+}
+
+/* Status: slim text with live green dot */
+.friend-status {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: rgba(255,255,255,0.45) !important;
+  letter-spacing: 0.01em !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: 0 !important;
+}
+
+/* Keep the green pulse dot but refine it */
+.friend-status::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #34D399 !important;
+  box-shadow: 0 0 0 0 rgba(52,211,153,0.5) !important;
+  animation: statusPulse 2.4s ease-in-out infinite !important;
+  flex-shrink: 0 !important;
+}
+
+/* Friend card overall */
+.friend-card {
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  box-shadow:
+    0 10px 48px rgba(0,0,0,0.50),
+    inset 0 1px 0 rgba(255,255,255,0.12) !important;
+}
+
+/* Body / chat area */
+.friend-body {
+  padding: 16px 18px 8px !important;
+  background: rgba(5,8,20,0.55) !important;
+}
+
+/* Chat bubble */
+.friend-bubble {
+  background: rgba(255,255,255,0.055) !important;
+  border: 1px solid rgba(255,255,255,0.09) !important;
+  border-radius: 4px 16px 16px 16px !important;
+  padding: 13px 16px !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: rgba(255,255,255,0.82) !important;
+}
+
+/* Quick-action chips */
+.friend-quick-wrap { padding: 10px 18px 16px !important; }
+.friend-q {
+  padding: 8px 15px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  border-radius: 20px !important;
+  background: rgba(255,255,255,0.07) !important;
+  border: 1px solid rgba(255,255,255,0.11) !important;
+  color: rgba(255,255,255,0.72) !important;
+}
+
+/* Meta flex container */
+.friend-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
 </style>
 
 <!-- ══ iOS STATUS BAR ══ -->
@@ -2440,15 +2542,12 @@ input[type="number"] {
       <div class="friend-card">
         <div class="friend-header">
           <div class="friend-meta">
-            <div class="friend-header-row">
-              <span class="friend-ai-badge">AI</span>
               <div class="friend-name" id="friend-name">Finance Advisor</div>
-            </div>
             <div class="friend-status" id="friend-status">Always here to help</div>
           </div>
         </div>
         <div class="friend-body">
-          <div class="friend-bubble" id="friend-bubble"><p>Hey! Set up your balance and budgets and I'll give you personalized money tips like a friend who actually looks at your finances. 👋</p></div>
+          <div class="friend-bubble" id="friend-bubble"><p>Hey! Set up your balance and budgets and I'll give you personalized money tips like a friend who actually looks at your finances. </p></div>
         </div>
         <div class="friend-quick-wrap">
           <div class="friend-quick" id="friend-quick">
@@ -5061,7 +5160,7 @@ function renderGreeting() {
   // Update friend status with user name
   var char = getChar();
   var statusEl = document.getElementById('friend-status');
-  if (statusEl) statusEl.textContent = name ? name + "'s " + char.title + ' ✨' : char.title + ' ✨';
+  if (statusEl) statusEl.textContent = name ? name + "'s " + char.title : char.title;
   var bubble = document.getElementById('friend-bubble');
   if (bubble && _currentFriendTopic === null) {
     bubble.innerHTML = formatBubble(getFriendMessage('hello'));
@@ -5552,7 +5651,7 @@ function applyChar() {
   var userName = localStorage.getItem('ds_user_name') || '';
   if (nameEl) nameEl.textContent = char.name;
   if (headerEl) headerEl.style.background = char.hdr;
-  if (statusEl) statusEl.textContent = userName ? userName + "'s " + char.title + ' ✨' : char.title + ' ✨';
+  if (statusEl) statusEl.textContent = userName ? userName + "'s " + char.title : char.title;
 }
 
 function renderCharChips() {
