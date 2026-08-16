@@ -2275,6 +2275,57 @@ input[type="number"] {
 .ht-value { letter-spacing: -1.8px !important; }
 .stat-value { letter-spacing: -0.3px !important; }
 
+
+/* ════════════════════════════════════════════════════
+   HEADER POLISH — professional brand bar + nav
+   ════════════════════════════════════════════════════ */
+
+/* Brand bar label: up from 7px to 9px, less aggressive tracking */
+.brand-mkt-label {
+  font-size: 9px !important;
+  letter-spacing: 0.18em !important;
+  color: rgba(255,255,255,0.62) !important;
+  font-weight: 600 !important;
+}
+@media (prefers-color-scheme: light) {
+  .brand-mkt-label { color: rgba(30,40,100,0.55) !important; }
+}
+:root[data-theme="light"] .brand-mkt-label { color: rgba(30,40,100,0.55) !important; }
+
+/* DS serif mark: tighten slightly */
+.brand-letter-ds {
+  font-size: 20px !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* Separator: slightly more visible */
+.brand-sep {
+  background: rgba(255,255,255,0.24) !important;
+  height: 13px !important;
+}
+:root[data-theme="light"] .brand-sep,
+@media (prefers-color-scheme: light) {
+  .brand-sep { background: rgba(30,40,100,0.22) !important; }
+}
+
+/* Nav title: crisper tracking */
+.nav-title {
+  letter-spacing: -1px !important;
+  font-weight: 700 !important;
+}
+.nav-bar.compact .nav-title {
+  letter-spacing: -0.3px !important;
+  font-weight: 600 !important;
+}
+
+/* Nav sub (month label): refined */
+.nav-sub {
+  font-size: 12px !important;
+  letter-spacing: 0.01em !important;
+  margin-top: 3px !important;
+  opacity: 0.75 !important;
+}
+
 </style>
 
 <!-- ══ iOS STATUS BAR ══ -->
@@ -2761,7 +2812,7 @@ input[type="number"] {
               onfocus="this.style.borderColor='var(--accent)'"
               onblur="this.style.borderColor='var(--sep)';var v=this.value.trim();if(v){localStorage.setItem('ds_user_name',v);renderGreeting();applyChar();}"
               onkeydown="if(event.key==='Enter'){var v=this.value.trim();if(v){localStorage.setItem('ds_user_name',v);renderGreeting();applyChar();}this.blur();}
-              oninput="var p=document.getElementById('name-preview');if(p){var v=this.value.trim();var h=new Date().getHours();var g=h<5?'Good night':h<12?'Good morning':h<17?'Good afternoon':'Good evening';p.textContent=v?g+', '+v+' 👋':g+' 👋';}" />
+              oninput="var p=document.getElementById('name-preview');if(p){var v=this.value.trim();var h=new Date().getHours();var g=h<5?'Good night':h<12?'Good morning':h<17?'Good afternoon':'Good evening';p.textContent=v?g+', '+v:g;}" />
             <button onclick="var inp=document.getElementById('settings-name-inp');var v=inp.value.trim();if(v){localStorage.setItem('ds_user_name',v);renderGreeting();applyChar();inp.blur();}else{localStorage.removeItem('ds_user_name');renderGreeting();applyChar();inp.value=''}"
               style="background:var(--accent);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">Save</button>
           </div>
@@ -4524,11 +4575,13 @@ function updateNavGreeting() {
   const el = document.getElementById('nav-title');
   if (!el || activeTab !== 'overview') return;
   const h = new Date().getHours();
-  const g = h < 5  ? '🌙 Late night'
-          : h < 12 ? 'Good morning ☀️'
-          : h < 17 ? 'Good afternoon 🌤'
-          : h < 21 ? 'Good evening 🌆'
-          :          'Good night 🌙';
+  const _name = localStorage.getItem('ds_user_name') || '';
+  const _base = h < 5  ? 'Good night'
+              : h < 12 ? 'Good morning'
+              : h < 17 ? 'Good afternoon'
+              : h < 21 ? 'Good evening'
+              :           'Good night';
+  const g = _name ? _base + ', ' + _name : _base;
   if (el.textContent !== g) {
     el.classList.remove('greeting-update');
     void el.offsetWidth; // reflow to restart animation
@@ -5001,10 +5054,10 @@ function renderGreeting() {
   var hour = new Date().getHours();
   var greet = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   var navEl = document.getElementById('nav-title');
-  if (navEl) navEl.textContent = name ? greet + ', ' + name + ' 👋' : greet + ' 👋';
+  if (navEl) navEl.textContent = name ? greet + ', ' + name : greet;
   // Live preview in settings
   var prev = document.getElementById('name-preview');
-  if (prev) prev.textContent = name ? greet + ', ' + name + ' 👋' : '';
+  if (prev) prev.textContent = name ? greet + ', ' + name : '';
   // Update friend status with user name
   var char = getChar();
   var statusEl = document.getElementById('friend-status');
