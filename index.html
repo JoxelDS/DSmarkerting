@@ -5297,13 +5297,32 @@ function getFriendMessage(topic) {
     var remaining = totalBudget - totalSpent;
     var dailyLeft = daysLeft > 0 ? remaining / daysLeft : 0;
     if (spendPct < dayPct - 15) {
-      return hey + '🔥 You\'re crushing it! Spent ' + spendPct + '% of budget with ' + dayPct + '% of month gone. That\'s ' + fmt(Math.abs(remaining)) + ' still available — ' + fmt(dailyLeft) + '/day left to spend freely. Consider moving some to savings!';
+      var _crushMsg = hey + '🔥 You\'re crushing it! Spent ' + spendPct + '% of budget with ' + dayPct + '% of month gone. That\'s ' + fmt(Math.abs(remaining)) + ' still available — ' + fmt(dailyLeft) + '/day left to spend freely.';
+      if (totalDebt > 0) {
+        var _csd = d.debts.slice().sort(function(a,b){return (b.apr||0)-(a.apr||0);})[0];
+        if (_csd && (_csd.apr||0) > 7) {
+          _crushMsg += ' You still have ' + fmt(totalDebt) + ' in debt — put that surplus toward "' + _csd.name + '" (' + (_csd.apr||0) + '% APR) first. That\'s a guaranteed ' + (_csd.apr||0) + '% return!';
+        } else {
+          _crushMsg += ' With ' + fmt(totalDebt) + ' in debt, chip away at it before padding savings further.';
+        }
+      } else {
+        _crushMsg += ' Consider moving some to savings!';
+      }
+      return _crushMsg;
     }
     if (spendPct > dayPct + 15) {
       var overpace = totalSpent / dayOfMonth * daysInMonth;
-      return hey + '⚠️ Spending too fast! At ' + spendPct + '% of budget with only ' + dayPct + '% of month done, you\'re on pace to spend ' + fmt(overpace) + ' — ' + fmt(overpace - totalBudget) + ' over budget. Cut ' + fmt((totalSpent - (totalBudget * dayPct / 100)) / Math.max(daysLeft,1)) + '/day this week to recover.';
+      var _overMsg = hey + '⚠️ Spending too fast! At ' + spendPct + '% of budget with only ' + dayPct + '% of month done, you\'re on pace to spend ' + fmt(overpace) + ' — ' + fmt(overpace - totalBudget) + ' over budget. Cut ' + fmt((totalSpent - (totalBudget * dayPct / 100)) / Math.max(daysLeft,1)) + '/day this week to recover.';
+      if (totalDebt > 0) _overMsg += ' Your ' + fmt(totalDebt) + ' in debt is also costing you interest every month — reining in spending is step 1 to getting ahead of it.';
+      return _overMsg;
     }
-    return hey + '👍 On track! Spent ' + fmt(totalSpent) + ' of ' + fmt(totalBudget) + ' — ' + fmt(remaining) + ' left for ' + daysLeft + ' days (' + fmt(dailyLeft) + '/day budget).';
+    var _otMsg = hey + '👍 On track! Spent ' + fmt(totalSpent) + ' of ' + fmt(totalBudget) + ' — ' + fmt(remaining) + ' left for ' + daysLeft + ' days (' + fmt(dailyLeft) + '/day budget).';
+    if (totalDebt > 0) {
+      var _otMin = d.debts.reduce(function(s,db){return s+(db.minPay||0);},0);
+      if (_otMin > 0) _otMsg += ' Keep hitting your debt minimums (' + fmt(_otMin) + '/mo) and direct any surplus to the highest-rate balance.';
+      else _otMsg += ' You have ' + fmt(totalDebt) + ' in debt — make sure minimum payments are covered in your budget.';
+    }
+    return _otMsg;
   }
 
   if (topic === 'track') {
@@ -5318,10 +5337,23 @@ function getFriendMessage(topic) {
     var weeklyBurn = dailyActual * 7;
     var verdict = '';
     if (dailyActual > dailyBudget * 1.25) {
-      verdict = '⚠️ Daily pace: ' + fmt(dailyActual) + '/day vs target ' + fmt(dailyBudget) + '/day.\nProjected month-end: ' + fmt(projectedTotal) + ' — that\'s ' + fmt(projectedOver) + ' OVER budget.\nWeekly spend: ' + fmt(weeklyBurn) + '/week.\n\n🛠️ Fix: Cut ' + fmt(dailyActual - dailyBudget) + '/day. Cancel one subscription or skip dining out 2x this week.';
+      var _ovv = '⚠️ Daily pace: ' + fmt(dailyActual) + '/day vs target ' + fmt(dailyBudget) + '/day.\nProjected month-end: ' + fmt(projectedTotal) + ' — that\'s ' + fmt(projectedOver) + ' OVER budget.\nWeekly spend: ' + fmt(weeklyBurn) + '/week.\n\n🛠️ Fix: Cut ' + fmt(dailyActual - dailyBudget) + '/day. Cancel one subscription or skip dining out 2x this week.';
+      if (totalDebt > 0) _ovv += '\n\n⚠️ Overspending with ' + fmt(totalDebt) + ' in debt is a double hit — less cash for payoff and interest keeps compounding. Get spending green first.';
+      verdict = _ovv;
     } else if (dailyActual < dailyBudget * 0.78) {
       var surplus = totalBudget - projectedTotal;
-      verdict = '🎉 Daily pace: ' + fmt(dailyActual) + '/day vs target ' + fmt(dailyBudget) + '/day.\nProjected month-end: ' + fmt(projectedTotal) + ' — a ' + fmt(surplus) + ' SURPLUS!\n\n💡 Move that surplus to savings or investments — don\'t let it evaporate on impulse buys.';
+      var _surpAdv;
+      if (totalDebt > 0) {
+        var _ssd = d.debts.slice().sort(function(a,b){return (b.apr||0)-(a.apr||0);})[0];
+        if (_ssd && (_ssd.apr||0) > 7) {
+          _surpAdv = '💡 Great surplus! With ' + fmt(totalDebt) + ' in debt at ' + (_ssd.apr||0) + '% APR, put it toward "' + _ssd.name + '" first — that\'s a guaranteed ' + (_ssd.apr||0) + '% return before touching savings.';
+        } else {
+          _surpAdv = '💡 Great surplus! Apply some toward your ' + fmt(totalDebt) + ' in debt before adding more to savings.';
+        }
+      } else {
+        _surpAdv = '💡 Move that surplus to savings or investments — don\'t let it evaporate on impulse buys.';
+      }
+      verdict = '🎉 Daily pace: ' + fmt(dailyActual) + '/day vs target ' + fmt(dailyBudget) + '/day.\nProjected month-end: ' + fmt(projectedTotal) + ' — a ' + fmt(surplus) + ' SURPLUS!\n\n' + _surpAdv;
     } else {
       verdict = '✅ Daily pace: ' + fmt(dailyActual) + '/day vs target ' + fmt(dailyBudget) + '/day — nearly perfect.\nProjected month-end: ' + fmt(projectedTotal) + ' (' + (projectedOver > 0 ? fmt(projectedOver) + ' over' : fmt(-projectedOver) + ' under') + ').';
     }
@@ -5341,12 +5373,32 @@ function getFriendMessage(topic) {
     if (topCat && topCat !== 'housing' && topCat !== 'transport') tips.push('your top spend is ' + catName(topCat) + ' — even trimming 10% matters');
     if (savingsBudget >= targetSavings) {
       var growth10yr = Math.round(savingsBudget * 12 * ((Math.pow(1.07, 10) - 1) / 0.07));
-      return hey + '🌟 Saving ' + fmt(savingsBudget) + '/month = ' + rate2 + '% savings rate — above the 20% target!\n\nYear 1: ' + fmt(yearSavings) + ' saved\nAt 7% avg return, in 10 years that grows to ~' + fmt(growth10yr) + '\n\n💡 Invest that savings in low-cost index funds (S&P 500 ETF like VOO or SPY) — not a savings account. Time in the market beats timing the market.';
+      var _sgMsg = hey + '🌟 Saving ' + fmt(savingsBudget) + '/month = ' + rate2 + '% savings rate — above the 20% target!\n\nYear 1: ' + fmt(yearSavings) + ' saved\nAt 7% avg return, in 10 years that grows to ~' + fmt(growth10yr);
+      if (totalDebt > 0) {
+        var _sgd = d.debts.slice().sort(function(a,b){return (b.apr||0)-(a.apr||0);})[0];
+        if (_sgd && (_sgd.apr||0) > 7) {
+          _sgMsg += '\n\n⚡ You still have ' + fmt(totalDebt) + ' in debt at ' + (_sgd.apr||0) + '% APR. Paying that down = a guaranteed ' + (_sgd.apr||0) + '% return — often better than market average. Balance both: invest AND attack that high-rate debt!';
+        } else {
+          _sgMsg += '\n\n💳 Keep chipping away at your ' + fmt(totalDebt) + ' in remaining debt while growing investments. Low-rate debt + steady investing is a solid combo.';
+        }
+      } else {
+        _sgMsg += '\n\n💡 Invest that savings in low-cost index funds (S&P 500 ETF like VOO or SPY) — not a savings account. Time in the market beats timing the market.';
+      }
+      return _sgMsg;
     }
     var growth5yr = savingsBudget > 0 ? Math.round(savingsBudget * 12 * ((Math.pow(1.07, 5) - 1) / 0.07)) : 0;
-    return hey + 'Saving ' + fmt(savingsBudget) + '/mo = ' + rate2 + '% savings rate.\nTarget: 20% = ' + fmt(targetSavings) + '/mo (gap: ' + fmt(gap) + ')\n\n' +
+    var _slMsg = hey + 'Saving ' + fmt(savingsBudget) + '/mo = ' + rate2 + '% savings rate.\nTarget: 20% = ' + fmt(targetSavings) + '/mo (gap: ' + fmt(gap) + ')\n\n' +
       (tips.length ? '🛠️ Quick wins to close the gap:\n• ' + tips.join('\n• ') : '💡 Every extra $50/mo = $600/year') +
       (savingsBudget > 0 ? '\n\n📈 Even at current pace, 5 years of investing = ~' + fmt(growth5yr) + ' at 7% returns.' : '');
+    if (totalDebt > 0) {
+      var _sld = d.debts.slice().sort(function(a,b){return (b.apr||0)-(a.apr||0);})[0];
+      if (_sld && (_sld.apr||0) > 7) {
+        _slMsg += '\n\n💡 Paying off "' + _sld.name + '" (' + (_sld.apr||0) + '% APR) IS a form of saving — it\'s a guaranteed ' + (_sld.apr||0) + '% return. Prioritize that debt alongside building your savings rate!';
+      } else {
+        _slMsg += '\n\n💳 With ' + fmt(totalDebt) + ' in debt, make sure minimums are fully covered before stretching your savings goals.';
+      }
+    }
+    return _slMsg;
   }
 
   if (topic === 'debt') {
