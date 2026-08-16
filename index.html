@@ -2428,6 +2428,39 @@ input[type="number"] {
   flex: 1 !important;
 }
 
+
+/* ── Survey: language picker ── */
+.survey-lang-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.survey-lang-btn {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 14px;
+  background: var(--fill);
+  border: 1.5px solid var(--sep);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-1);
+  cursor: pointer;
+  text-align: left;
+  transition: background .14s, border-color .14s, color .14s;
+  -webkit-tap-highlight-color: transparent;
+}
+.survey-lang-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.survey-lang-btn:hover:not(.active) {
+  background: var(--fill-2);
+}
+
 </style>
 
 <!-- ══ iOS STATUS BAR ══ -->
@@ -2455,8 +2488,14 @@ input[type="number"] {
         min="0" step="0.01" placeholder="0"
         onkeydown="if(event.key==='Enter')surveyNext()" />
     </div>
+    <div class="survey-lang-wrap" id="survey-lang-wrap" style="display:none">
+      <button class="survey-lang-btn active" data-lang="en" onclick="surveySelectLang('en')">🇺🇸 English</button>
+      <button class="survey-lang-btn" data-lang="es" onclick="surveySelectLang('es')">🇪🇸 Español</button>
+      <button class="survey-lang-btn" data-lang="pt" onclick="surveySelectLang('pt')">🇧🇷 Português</button>
+      <button class="survey-lang-btn" data-lang="fr" onclick="surveySelectLang('fr')">🇫🇷 Français</button>
+    </div>
     <div class="survey-btns">
-      <button class="survey-skip" onclick="surveySkip()">Skip ›</button>
+      <button class="survey-skip" id="survey-skip-btn" onclick="surveySkip()">Skip ›</button>
       <button class="survey-next" id="survey-next-btn" onclick="surveyNext()">Next →</button>
     </div>
   </div>
@@ -4428,6 +4467,12 @@ document.addEventListener('keydown',e=>{
 /* ══ SETUP SURVEY ══ */
 const SURVEY_STEPS = [
   {
+    emoji:'🌍', type:'lang',
+    q:'Choose your language',
+    hint:'You can change this any time in Settings',
+    key:'lang'
+  },
+  {
     emoji:'👋', prefix:'', type:'text', placeholder:'Your first name',
     q:'What\'s your name?',
     hint:'I\'ll use it to personalize your experience — just your first name is fine',
@@ -4511,19 +4556,34 @@ function showSurveyStep(idx) {
   document.getElementById('survey-hint').textContent = step.hint || '';
   const prefixEl = document.getElementById('survey-prefix');
   const inp = document.getElementById('survey-inp');
-  if (step.type === 'text') {
-    prefixEl.style.display = 'none';
-    inp.type = 'text'; inp.inputMode = 'text';
-    inp.setAttribute('min',''); inp.setAttribute('step','');
-    inp.placeholder = step.placeholder || 'Type here…';
+  const langWrap = document.getElementById('survey-lang-wrap');
+  const inpWrap  = document.getElementById('survey-inp-wrap');
+  const skipBtn  = document.getElementById('survey-skip-btn');
+  if (step.type === 'lang') {
+    if (inpWrap)  inpWrap.style.display  = 'none';
+    if (langWrap) langWrap.style.display  = '';
+    if (skipBtn)  skipBtn.style.display   = 'none';
+    const cur = localStorage.getItem('ds_lang') || 'en';
+    document.querySelectorAll('.survey-lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === cur));
   } else {
-    prefixEl.style.display = '';
-    prefixEl.textContent = step.prefix || '$';
-    inp.type = 'number'; inp.inputMode = 'decimal';
-    inp.setAttribute('min','0'); inp.setAttribute('step','0.01');
-    inp.placeholder = '0';
+    if (langWrap) langWrap.style.display  = 'none';
+    if (inpWrap)  inpWrap.style.display   = '';
+    if (skipBtn)  skipBtn.style.display   = '';
+    if (step.type === 'text') {
+      prefixEl.style.display = 'none';
+      inp.type = 'text'; inp.inputMode = 'text';
+      inp.setAttribute('min',''); inp.setAttribute('step','');
+      inp.placeholder = step.placeholder || 'Type here…';
+    } else {
+      prefixEl.style.display = '';
+      prefixEl.textContent = step.prefix || '$';
+      inp.type = 'number'; inp.inputMode = 'decimal';
+      inp.setAttribute('min','0'); inp.setAttribute('step','0.01');
+      inp.placeholder = '0';
+    }
+    inp.value = '';
+    setTimeout(() => inp.focus(), 100);
   }
-  inp.value = '';
 
   // Last step: change button text
   document.getElementById('survey-next-btn').textContent = idx === total - 1 ? 'Finish ✓' : 'Next →';
@@ -4532,13 +4592,24 @@ function showSurveyStep(idx) {
   const card = document.getElementById('survey-card');
   card.style.animation = 'none';
   requestAnimationFrame(() => { card.style.animation = 'surveyFadeIn .2s ease'; });
-  setTimeout(() => inp.focus(), 100);
+}
+
+function surveySelectLang(lang) {
+  setLang(lang);
+  document.querySelectorAll('.survey-lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
 }
 
 function surveyNext() {
   const step = SURVEY_STEPS[surveyStep];
-  const raw = document.getElementById('survey-inp').value;
-  const val = step.type === 'text' ? raw.trim() : (parseFloat(raw) || 0);
+  let val;
+  if (step.type === 'lang') {
+    const activeBtn = document.querySelector('.survey-lang-btn.active');
+    val = activeBtn ? activeBtn.dataset.lang : 'en';
+    setLang(val);
+  } else {
+    const raw = document.getElementById('survey-inp').value;
+    val = step.type === 'text' ? raw.trim() : (parseFloat(raw) || 0);
+  }
   surveyAnswers[step.key] = val;
   advanceSurvey();
 }
